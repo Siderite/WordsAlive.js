@@ -42,11 +42,12 @@
 				backgroundColor : this.color
 			});
 			this.elem.appendTo('body');
+			this.exOfs=this.elem.offsetParent().offset();
 		},
 		redraw : function () {
 			this.elem.css({
-				left : this.x,
-				top : this.y
+				left : this.x-this.exOfs.left,
+				top : this.y-this.exOfs.top
 			});
 		}
 	};
