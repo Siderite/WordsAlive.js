@@ -18,7 +18,7 @@
 				var parent = $(node.parentNode);
 				if (!parent.is(':visible'))
 					continue;
-				if (parent.is('.wordsAlive'))
+				if (parent.is('.wordsAlive')||parent.closest('.wordsAlive').length)
 					continue;
 				nodes.push(node);
 			}
