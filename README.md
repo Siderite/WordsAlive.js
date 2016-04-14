@@ -19,15 +19,20 @@ The addons defined so far are:
  Create your own addon
  All you need to do is add a new object as a property of WordsAlive.addons. The object needs to have defined a getManager(word) function and an init(newElems) function. All addons defined so far return the addon object from getManager if the conditions are met. A word manager needs a function getClasses(word) that returns an array of class names for the span element of the word. The init function of the addon will only provide additional functionality on the new span elements created. Is is customary for an addon to also have a name property, even if it is not used at this time.
  
- Example:
+## Examples:
+
+```javascript
  WordsAlive.addons.sample={
    name:'Sample addon makes all "sample" words be wrapped in spans with class name "sample_class"',
    getManager:function(word) { return word=='sample'?this:null; },
    getClasses:function(word) { return ['sample_class'];},
    init:function(newElems) { console.log(newElems); }
  };
+```
  
  Same functionality, with a different manager object:
+ 
+```javascript
  WordsAlive.addons.sample = {
 	name : 'Sample addon makes all "sample" words be wrapped in spans with class name "sample_class"',
 	getManager : function (word) {
@@ -38,3 +43,4 @@ The addons defined so far are:
 	},
 	init : function (newElems) { console.log(newElems); }
 };
+```
