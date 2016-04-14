@@ -18,10 +18,10 @@
 		},
 		init : function (newElems) {
 			var self = this;
-			$('.liverotate',newElems)
+			$('.liverotate', newElems)
 			.mouseenter(function () {
 				var rotation = $(this).data('rotation');
-				if (rotation && rotation.count > 0)
+				if (rotation)
 					return;
 				rotation = self.startRotation(this);
 				$(this).data('rotation', rotation);
@@ -29,8 +29,7 @@
 			.mouseout(function () {
 				var rotation = $(this).data('rotation');
 				if (rotation)
-					self.stopRotation(rotation);
-				$(this).removeData('rotation');
+					rotation.stop = true;
 			});
 		},
 		startRotation : function (elem) {
@@ -39,7 +38,10 @@
 			var rotation = {
 				interval : null,
 				angle : 0,
-				elem : elem
+				elem : elem,
+				originalTransform : $(elem).css('transform'),
+				originalDisplay : $(elem).css('display'),
+				stop : false
 			};
 			rotation.interval = setInterval(function () {
 					elem.css({
@@ -49,6 +51,9 @@
 					rotation.angle += self.angularSpeed;
 					if (rotation.angle >= 360)
 						rotation.angle = rotation.angle % 360;
+					if (rotation.stop && rotation.angle == 0) {
+						self.stopRotation(rotation);
+					}
 				}, this.intervalSpeed);
 			return rotation;
 		},
@@ -57,9 +62,10 @@
 				clearInterval(rotation.interval);
 			rotation.interval = null;
 			rotation.elem.css({
-				'transform' : '',
-				'display' : ''
+				'transform' : rotation.originalTransform,
+				'display' : rotation.originalDisplay
 			});
+			rotation.elem.removeData('rotation');
 		}
 	};
 })();
